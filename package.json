@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cd ./views && npm run build && cd .. && node ./bin/www",
-    "build": "cd ./views && npm run build",
+    "build": "cd ./views && npm i && npm run build && cd ..",
+    "start": "npm run 'build'  && node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
