@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cd ./views && npm run build && cd .. && node ./bin/www",
+    "build": "cd ./views && npm run build",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
