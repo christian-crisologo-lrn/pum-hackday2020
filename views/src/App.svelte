@@ -146,7 +146,7 @@
 				<Card title="What is an interesting personal fact you could share?" value={row('whatisaninterestingpersonalfactyoucouldshare')} />
 
 
-				<Card title="Do you have any pets? What kind? " value={row('whatdoyouenjoydoingafterwork')} />
+				<Card title="Do you have any pets? What kind? " value={row('doyouhaveanypetswhatkind')} />
 
 				<Card title="What is your favourite book?" value={row('whatisyourfavouritebook')} />
 
