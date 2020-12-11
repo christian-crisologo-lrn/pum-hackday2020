@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import Card from './Card.svelte';
 
-	const spreadsheetID = '10QkdUFqrvq723gNwvcz9WKeajz0tllF5-0BMHAOEPa8';
+	// const spreadsheetID = '10QkdUFqrvq723gNwvcz9WKeajz0tllF5-0BMHAOEPa8';
+	const spreadsheetID = '19e8Ku8HkchntzoCF6S2h9DrM3mibvcDMMdAjxcWDsgk';
     const sheetNumber = 1;
 
     const url = `https://spreadsheets.google.com/feeds/list/${spreadsheetID}/${sheetNumber}/public/values?alt=json`;
@@ -15,7 +16,7 @@
 		const data = await fetch(url).then(r => r.json());
 		const entries = data && data.feed && data.feed.entry || [];
 		const userName = query.get('name');
-		currentUser = {...currentUser , ...(!userName  ? entries[entries.length-1] : entries.find(i=> i.gsx$whatisyourname === userName )) };
+		currentUser = {...currentUser , ...(!userName  ? entries[entries.length-1] : entries.find(i=> i.gsx$whatisyourname && i.gsx$whatisyourname.$t  === userName )) };
 		window.scrollTo(0,0);  
 	}
 
@@ -24,6 +25,8 @@
 		return value && value.$t || '';
 	}
 
+
+
 	onMount(hashchange);
 </script>
 
@@ -31,7 +34,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
 		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" href="#page-top">Personal User Manual</a>
+			<a class="navbar-brand js-scroll-trigger" href="#page-top">User Manual</a>
 			<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				Menu
 				<i class="fas fa-bars"></i>
@@ -51,7 +54,7 @@
 			<!-- Masthead Avatar Image-->
 			<img class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="" />
 			<!-- Masthead Heading-->
-			<h1 class="masthead-heading text-uppercase mb-0">Howdy I'm {row('whatisyourname')}</h1>
+			<h1 class="masthead-heading text-uppercase mb-0">{row('whatisyourname')}</h1>
 			<!-- Icon Divider-->
 			<div class="divider-custom divider-light">
 				<div class="divider-custom-line"></div>
@@ -78,6 +81,31 @@
 			 
 			<Card title="How do you like to receive feedback?" value={row('howdoyouliketoreceivefeedback')} />
 
+			<Card title="When do you do your best work?" value={row('whendoyoudoyourbestwork')} />
+
+			<Card title="How do you learn best?" value={row('howdoyoulearnbest')} />
+
+			<Card title="What are your strengths?" value={row('whatareyourstrengths')} />
+
+			<Card title="What are your weaknesses?" value={row('whatareyourweaknesses')} />
+
+			<Card title="Which technology stack are you strongest with?" value={row('whichtechnologystackareyoustrongestwith')} />
+
+			<Card title="What do you struggle with?" value={row('whatdoyoustrugglewith')} />
+
+			<Card title="What do you find frustrating in a work environment?" value={row('whatdoyoufindfrustratinginaworkenvironment')} />
+
+			<Card title="What computer OS do you like?" value={row('whatcomputerosdoyoulike')} />
+
+			<Card title="What is your favourite code editing tool?" value={row('whatisyourfavouritecodeeditingtool')} />
+
+			<Card title="If you would like, share some links to your social media accounts (personal blog, etc)" value={row('ifyouwouldlikesharesomelinkstoyoursocialmediaaccountspersonalblogetc')} />
+
+			<Card title="Would you say you are more introverted or extroverted?" value={row('wouldyousayyouaremoreintrovertedorextroverted')} />
+
+			<Card title="What do you enjoy doing after work? " value={row('doyouhaveanypetswhatkind')} />
+
+
 		</div>
 	</section>
 	<!-- About Section-->
@@ -97,10 +125,11 @@
 			<Card title="Do you prefer iphone or android?" value={row('doyoupreferiphoneorandroid')} textStyle="text-warning" />
 
 
+
 		</div>
 	</section>
 	<!-- Contact Section-->
-	<section class="page-section" id="Trivia">
+	<section class="page-section" id="trivia">
 		<div class="container">
 			<!-- Contact Section Heading-->
 			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Trivia</h2>
@@ -111,12 +140,34 @@
 				<div class="divider-custom-line"></div>
 			</div>
 			<!-- Contact Section Form-->
-			<div class="row">
-				<div class="col-lg-8 mx-auto">
-					
-				</div>
+ 
+				<Card title="What is an interesting personal fact you could share?" value={row('whatisaninterestingpersonalfactyoucouldshare')} />
+
+
+				<Card title="Do you have any pets? What kind? " value={row('whatdoyouenjoydoingafterwork')} />
+
+				<Card title="What is your favourite book?" value={row('whatisyourfavouritebook')} />
+
+				<Card title="What is your favourite movie?" value={row('whatisyourfavouritemovie')} />
+
+				<Card title="What is your favourite TV show?" value={row('whatisyourfavouritetvshow')} />
+
+				<Card title="What do you love to eat?" value={row('whatdoyoulovetoeat')} />
+
+				<Card title="What is your dream tourist destination?" value={row('whatisyourdreamtouristdestination')} />
+
+				<Card title="What is your spirit animal?" value={row('whatisyourspiritanimal')} />
+
+				<Card title="What is your favourite GIF? (provide a URL)" value={row('whatisyourfavouritegifprovideaurl')} />
+
+				<Card title="What is your favourite emoji? (provide a URL)" value={row('whatisyourfavouriteemojiprovideaurl')} />
+
+
+
+
+
 			</div>
-		</div>
+	 
 	</section>
 	<!-- Footer-->
 	<footer class="footer text-center">
