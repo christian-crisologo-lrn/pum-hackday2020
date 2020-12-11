@@ -3,16 +3,19 @@
 	import Card from './Card.svelte';
 
 	// const spreadsheetID = '10QkdUFqrvq723gNwvcz9WKeajz0tllF5-0BMHAOEPa8';
-	const spreadsheetID = '19e8Ku8HkchntzoCF6S2h9DrM3mibvcDMMdAjxcWDsgk';
+	const defaultSspreadsheetID = '19e8Ku8HkchntzoCF6S2h9DrM3mibvcDMMdAjxcWDsgk';
     const sheetNumber = 1;
 
-    const url = `https://spreadsheets.google.com/feeds/list/${spreadsheetID}/${sheetNumber}/public/values?alt=json`;
+    
 	let currentUser = {
 		gsx$whatisyourname: ''
 	};
 
 	async function hashchange() {
 		const query = new URLSearchParams(window.location.search);
+		const spreadsheetID = query.get('ssid') || defaultSspreadsheetID;
+		const url = `https://spreadsheets.google.com/feeds/list/${spreadsheetID}/${sheetNumber}/public/values?alt=json`;
+
 		const data = await fetch(url).then(r => r.json());
 		const entries = data && data.feed && data.feed.entry || [];
 		const userName = query.get('name');
@@ -23,11 +26,10 @@
 	$: row = (prop)=> {
 		const value = currentUser['gsx$'+prop] ;
 		return value && value.$t || '';
-	}
-
-
+	} 
 
 	onMount(hashchange);
+
 </script>
 
 <main id="page-top">
