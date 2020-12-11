@@ -1,12 +1,37 @@
 <script>
-	// export let name;
+	import { onMount } from 'svelte';
+	import Card from './Card.svelte';
+
+	const spreadsheetID = '10QkdUFqrvq723gNwvcz9WKeajz0tllF5-0BMHAOEPa8';
+    const sheetNumber = 1;
+
+    const url = `https://spreadsheets.google.com/feeds/list/${spreadsheetID}/${sheetNumber}/public/values?alt=json`;
+	let currentUser = {
+		gsx$whatisyourname: ''
+	};
+
+	async function hashchange() {
+		const query = new URLSearchParams(window.location.search);
+		const data = await fetch(url).then(r => r.json());
+		const entries = data && data.feed && data.feed.entry || [];
+		const userName = query.get('name');
+		currentUser = {...currentUser , ...(!userName  ? entries[entries.length-1] : entries.find(i=> i.gsx$whatisyourname === userName )) };
+		window.scrollTo(0,0);  
+	}
+
+	$: row = (prop)=> {
+		const value = currentUser['gsx$'+prop] ;
+		return value && value.$t || '';
+	}
+
+	onMount(hashchange);
 </script>
 
 <main id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
 		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" href="#page-top">Testing</a>
+			<a class="navbar-brand js-scroll-trigger" href="#page-top">Personal User Manual</a>
 			<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				Menu
 				<i class="fas fa-bars"></i>
@@ -26,7 +51,7 @@
 			<!-- Masthead Avatar Image-->
 			<img class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="" />
 			<!-- Masthead Heading-->
-			<h1 class="masthead-heading text-uppercase mb-0">Start Bootstrap</h1>
+			<h1 class="masthead-heading text-uppercase mb-0">Howdy I'm {row('whatisyourname')}</h1>
 			<!-- Icon Divider-->
 			<div class="divider-custom divider-light">
 				<div class="divider-custom-line"></div>
@@ -34,20 +59,24 @@
 				<div class="divider-custom-line"></div>
 			</div>
 			<!-- Masthead Subheading-->
-			<p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p>
+			<p class="masthead-subheading font-weight-light mb-0">Welcome to my personal user manual</p>
 		</div>
 	</header>
 	<!-- Portfolio Section-->
 	<section class="page-section portfolio" id="work-style">
 		<div class="container">
 			<!-- Portfolio Section Heading-->
-			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
+			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">work-style</h2>
 			<!-- Icon Divider-->
 			<div class="divider-custom">
 				<div class="divider-custom-line"></div>
 				<div class="divider-custom-icon"><i class="fas fa-star"></i></div>
 				<div class="divider-custom-line"></div>
 			</div>
+
+			<Card title="What is your favourite communication method?" value={row('whatisyourfavouritecommunicationmethod')} />
+			 
+			<Card title="How do you like to receive feedback?" value={row('howdoyouliketoreceivefeedback')} />
 
 		</div>
 	</section>
@@ -62,11 +91,11 @@
 				<div class="divider-custom-icon"><i class="fas fa-star"></i></div>
 				<div class="divider-custom-line"></div>
 			</div>
-			<!-- About Section Content-->
-			<div class="row">
-				<div class="col-lg-4 ml-auto"><p class="lead">Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS stylesheets for easy customization.</p></div>
-				<div class="col-lg-4 mr-auto"><p class="lead">You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!</p></div>
-			</div>
+			
+			<Card title="What do you prefer to be called?" value={row('whatdoyouprefertobecalled')} textStyle="text-warning" />
+
+			<Card title="Do you prefer iphone or android?" value={row('doyoupreferiphoneorandroid')} textStyle="text-warning" />
+
 
 		</div>
 	</section>
@@ -116,34 +145,13 @@
 	</footer>
 	<!-- Copyright Section-->
 	<div class="copyright py-4 text-center text-white">
-		<div class="container"><small>Copyright © Your Website 2020</small></div>
+		<div class="container"><small>Copyright © Personal User Manual 2020</small></div>
 	</div>
 	<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
 	<div class="scroll-to-top d-lg-none position-fixed">
 		<a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
 	</div>
 </main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+ 
 
 
